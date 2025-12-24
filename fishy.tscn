@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://cox7yhn65xf4h"]
+
+[ext_resource type="Script" uid="uid://dgvtwjpulg64y" path="res://Fishy.cs" id="1_ko7uc"]
+[ext_resource type="Texture2D" uid="uid://bly2ylk0d7ll8" path="res://peewee.PNG" id="2_ko7uc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ko7uc"]
+radius = 7.0
+height = 42.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ko7uc"]
+radius = 222.22511
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qhi1f"]
+radius = 40.0
+
+[node name="fishy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ko7uc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.05358752, 0.06444611)
+texture = ExtResource("2_ko7uc")
+
+[node name="FishHitBox" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_ko7uc")
+metadata/_edit_lock_ = true
+
+[node name="PerceptionRange" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PerceptionRange"]
+shape = SubResource("CircleShape2D_ko7uc")
+
+[node name="TooCloseBackAwayPls" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TooCloseBackAwayPls"]
+shape = SubResource("CircleShape2D_qhi1f")

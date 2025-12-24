@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvfln25ibf1oc"]
+
+[ext_resource type="PackedScene" uid="uid://c1gv0nknchjka" path="res://tank.tscn" id="2_0xm2m"]
+
+[node name="main" type="Node2D"]
+
+[node name="Tank" parent="." instance=ExtResource("2_0xm2m")]
+metadata/_edit_lock_ = true

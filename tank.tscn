@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1gv0nknchjka"]
+
+[ext_resource type="Script" uid="uid://b8bgrv8136qp8" path="res://Tank.cs" id="1_6lwfj"]
+[ext_resource type="Texture2D" uid="uid://upwkminqr8iq" path="res://merp.png" id="2_1ealj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_how3p"]
+size = Vector2(1152, 648)
+
+[node name="Tank" type="Area2D"]
+collision_mask = 4
+script = ExtResource("1_6lwfj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(576, 324)
+scale = Vector2(0.62882096, 0.5246964)
+texture = ExtResource("2_1ealj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(576, 324)
+shape = SubResource("RectangleShape2D_how3p")
+
+[node name="FishCount" type="Label" parent="."]
+offset_right = 211.0
+offset_bottom = 57.0
+
+[node name="PeeWees" type="Node" parent="."]
+
+[connection signal="body_shape_exited" from="." to="." method="BoidHasLeft"]
