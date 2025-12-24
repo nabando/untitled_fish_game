@@ -15,6 +15,11 @@ run/main_scene="uid://bvfln25ibf1oc"
 config/features=PackedStringArray("4.5", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1728
+window/size/viewport_height=778
+
 [dotnet]
 
 project/assembly_name="untitled_fish_game"

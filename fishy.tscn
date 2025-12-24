@@ -11,7 +11,7 @@ height = 42.0
 radius = 222.22511
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhi1f"]
-radius = 40.0
+radius = 44.011364
 
 [node name="fishy" type="CharacterBody2D"]
 collision_layer = 4

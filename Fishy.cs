@@ -10,6 +10,9 @@ public partial class Fishy : CharacterBody2D
 	private Area2D TooCloseRange;
 	private Fishy[] NearbyFishies;
 	private Fishy[] TooCloseFishies;
+	private float alignmentWeight = 1f;
+	private float cohesionWeight = 0.2f;
+	private float separationWeight = 0.25f;
 	
 	public override void _Ready()
 	{
@@ -29,11 +32,14 @@ public partial class Fishy : CharacterBody2D
 			//GD.Print($"hi {PerceptionRange.GetOverlappingBodies().Count}");
 			//GD.Print(PerceptionRange.GetOverlappingBodies()[0].GetClass());
 			NearbyFishies = convertWeirdToArr(PerceptionRange.GetOverlappingBodies());
+			TooCloseFishies = convertWeirdToArr(TooCloseRange.GetOverlappingBodies());
 			//GD.Print(Alignment(NearbyFishies));
-			//newVel = Alignment(NearbyFishies);
-			newVel = Cohesion(NearbyFishies);
+			newVel += Alignment(NearbyFishies) * alignmentWeight;
+			newVel += Cohesion(NearbyFishies) * cohesionWeight;
+			newVel += Separation(TooCloseFishies) * separationWeight;
+			
 			newVel = newVel.Normalized() * Speed;
-			velocity = velocity.Lerp(newVel, 0.05f);
+			velocity = velocity.Lerp(newVel, 0.03f);
 		}
 		
 		//TooCloseFishies = convertWeirdToArr(TooCloseRange.GetOverlappingBodies());
@@ -71,13 +77,18 @@ public partial class Fishy : CharacterBody2D
 			// change this to relative position
 			centerPt += otherFishies[i].Position; 
 		}
+		centerPt /= otherFishies.Length;
 		// create a vector pointing towards the center
-		dirTowardsCenter = centerPt.Normalized() * Speed;
+		dirTowardsCenter = centerPt - Position;
+		dirTowardsCenter = dirTowardsCenter * Speed;
 		
 		return dirTowardsCenter;
 	}
 	
 	private Vector2 Separation(Fishy[] tooCloseFishies) {
+		if (tooCloseFishies.Length == 0) {
+			return new Vector2(0, 0);
+		}
 		Vector2 centerPt = new Vector2(0, 0);
 		Vector2 dirFromCenter = new Vector2(0, 0);
 		
@@ -89,7 +100,8 @@ public partial class Fishy : CharacterBody2D
 		centerPt /= tooCloseFishies.Length;
 		
 		// create a vector pointing away from the center
-		dirFromCenter = -centerPt.Normalized();
+		dirFromCenter = centerPt - Position;
+		dirFromCenter = -dirFromCenter * Speed;
 		
 		return dirFromCenter;
 	}

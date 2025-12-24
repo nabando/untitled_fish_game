@@ -8,6 +8,7 @@ public partial class Tank : Area2D
 	int height = 648;
 	int width = 1152;
 	int fishCount = 0;
+	int buffer = 0;
 	public bool spawnModeHold = false;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -65,28 +66,29 @@ public partial class Tank : Area2D
 	//signal
 	private void BoidHasLeft(Rid body_rid, Node2D body, int BodyShapeIndex, int LocalShapeIndex) {
 		Vector2 relativePosition =  body.Position - Position;
-		int buffer = 50;
 		
+		//GD.Print($"Tank position: {Position}");
+		GD.Print($"Relative position before change: {body.Position  - Position}");
 		//check left and right
 		if (relativePosition.X > width) {
 			//GD.Print("exit right");
-			body.Position = new Vector2(relativePosition.X - width - buffer, body.Position.Y);
+			body.Position = new Vector2(Position.X - buffer, body.Position.Y);
 		}
 		else if (relativePosition.X < 0) {
 			//GD.Print("exit left");
-			body.Position = new Vector2(relativePosition.X + width + buffer, body.Position.Y);
+			body.Position = new Vector2(Position.X + width + buffer, body.Position.Y);
 		}
 		
 		//check top and bottom
 		// keep in mind the flip in logic since positive Y is down in godot
 		if (relativePosition.Y < 0) {
 			//GD.Print("exit top");
-			body.Position = new Vector2(body.Position.X, relativePosition.Y + height + buffer);
+			body.Position = new Vector2(body.Position.X, Position.Y + height + buffer);
 		}
 		else if (relativePosition.Y > height) {
 			//GD.Print("exit bottom");
-			body.Position = new Vector2(body.Position.X, relativePosition.Y - height - buffer);
+			body.Position = new Vector2(body.Position.X, Position.Y - buffer);
 		}
-		
+		GD.Print($"Relative position after change: {body.Position  - Position}");
 	}
 }
