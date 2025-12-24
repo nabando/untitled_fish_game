@@ -11,8 +11,8 @@ public partial class Fishy : CharacterBody2D
 	private Fishy[] NearbyFishies;
 	private Fishy[] TooCloseFishies;
 	private float alignmentWeight = 1f;
-	private float cohesionWeight = 0.2f;
-	private float separationWeight = 0.25f;
+	private float cohesionWeight = 1f;
+	private float separationWeight = 1.1f;
 	
 	public override void _Ready()
 	{
@@ -39,7 +39,7 @@ public partial class Fishy : CharacterBody2D
 			newVel += Separation(TooCloseFishies) * separationWeight;
 			
 			newVel = newVel.Normalized() * Speed;
-			velocity = velocity.Lerp(newVel, 0.03f);
+			velocity = velocity.Lerp(newVel, 0.1f).Normalized() * Speed;
 		}
 		
 		//TooCloseFishies = convertWeirdToArr(TooCloseRange.GetOverlappingBodies());
