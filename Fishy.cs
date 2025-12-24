@@ -23,13 +23,17 @@ public partial class Fishy : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
+		Vector2 newVel = velocity;
 		
 		if (PerceptionRange.GetOverlappingBodies().Count > 1) {
 			//GD.Print($"hi {PerceptionRange.GetOverlappingBodies().Count}");
 			//GD.Print(PerceptionRange.GetOverlappingBodies()[0].GetClass());
 			NearbyFishies = convertWeirdToArr(PerceptionRange.GetOverlappingBodies());
 			//GD.Print(Alignment(NearbyFishies));
-			velocity = velocity.Lerp(Alignment(NearbyFishies), 0.05f);
+			//newVel = Alignment(NearbyFishies);
+			newVel = Cohesion(NearbyFishies);
+			newVel = newVel.Normalized() * Speed;
+			velocity = velocity.Lerp(newVel, 0.05f);
 		}
 		
 		//TooCloseFishies = convertWeirdToArr(TooCloseRange.GetOverlappingBodies());
@@ -68,7 +72,7 @@ public partial class Fishy : CharacterBody2D
 			centerPt += otherFishies[i].Position; 
 		}
 		// create a vector pointing towards the center
-		dirTowardsCenter = centerPt.Normalized();
+		dirTowardsCenter = centerPt.Normalized() * Speed;
 		
 		return dirTowardsCenter;
 	}
